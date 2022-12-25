@@ -6,7 +6,6 @@ Description: >
 Globals:
   Function:
     Timeout: 120
-    CodeUri: .
     Tracing: Active
 
 Resources:
@@ -36,7 +35,7 @@ Resources:
         Type: AllAtOnce
 
     Metadata:
-      Dockerfile: ops/Dockerfile
+      Dockerfile: Dockerfile
       DockerContext: .
       DockerBuildArgs:
         ENV: test
