@@ -20,7 +20,7 @@ phases:
     commands:
       - aws cloudformation validate-template --template-body file://lambda.yaml
       - sam build --template lambda.yaml -b /tmp/build -s . --use-container
-      - sam package --template-file /tmp/build/template.yaml --output-template-file packaged.yaml --image-repository 490620769461.dkr.ecr.ap-south-1.amazonaws.com/sam-build --s3-bucket $BUCKET
+      - sam package --template-file /tmp/build/template.yaml --output-template-file packaged.yaml --image-repository 490620769461.dkr.ecr.ap-south-1.amazonaws.com/sam-build --s3-bucket sam-artifcats
 artifacts:
   type: zip
   files:
