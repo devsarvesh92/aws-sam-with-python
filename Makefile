@@ -3,7 +3,7 @@ define setup
 endef
 
 define download-encryption-keys
-	aws s3 cp s3://sam-encryption-bucket/ . --recursive --profile personal; 
+	aws s3 cp s3://sam-encryption-bucket/ . --recursive; 
 endef
 
 download-encryption-keys:
