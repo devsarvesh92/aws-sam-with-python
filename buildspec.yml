@@ -21,6 +21,7 @@ phases:
       - aws cloudformation validate-template --template-body file://lambda.yaml
       - sam build --template lambda.yaml -b /tmp/build -s . --use-container
       - sam package --template-file /tmp/build/template.yaml --output-template-file packaged.yaml --image-repository 490620769461.dkr.ecr.ap-south-1.amazonaws.com/sam-build --resolve-s3
+      - sam deploy --template-file packaged.yaml --stack-name sam-lambda-stack
 artifacts:
   type: zip
   files:
