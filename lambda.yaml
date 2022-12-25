@@ -1,0 +1,48 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Transform: AWS::Serverless-2016-10-31
+Description: >
+  Platform Notification Replay reads from Document DB and consumes events from kinesis stream and push data to document DB
+
+Globals:
+  Function:
+    Timeout: 120
+    CodeUri: .
+    Tracing: Active
+
+Resources:
+  PlatformSFTPRelayFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: "sam-test-lambda"
+      Policies:
+        - AWSLambdaVPCAccessExecutionRole
+        - AWSXrayWriteOnlyAccess
+        - AmazonSSMReadOnlyAccess
+        - AmazonSSMFullAccess
+        - AmazonSNSFullAccess
+        - AmazonSQSFullAccess
+      PackageType: Image
+      Events:
+        EventSource:
+          Type: SQS
+          Properties:
+            Queue: "arn:aws:sqs:ap-south-1:490620769461:test"
+            FunctionResponseTypes:
+              - ReportBatchItemFailures
+
+      AutoPublishAlias: live
+
+      DeploymentPreference:
+        Type: AllAtOnce
+
+    Metadata:
+      Dockerfile: ops/Dockerfile
+      DockerContext: .
+      DockerBuildArgs:
+        ENV: test
+
+  CloudWatchLogGroup:
+    Type: AWS::Logs::LogGroup
+    Properties:
+      LogGroupName: /aws/lambda/sam
+      RetentionInDays: 14

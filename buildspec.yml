@@ -1,0 +1,28 @@
+version: 0.2
+
+env:
+  variables:
+    BUCKET: "sam-artifcats"
+
+phases:
+  install:
+    runtime-versions:
+      python: 3.x
+    commands:
+      - pip install -U pip pdm
+      - python --version
+      - aws --version
+      - sam --version
+  pre_build:
+    commands:
+      - make setup
+  build:
+    commands:
+      - aws cloudformation validate-template --template-body file://lambda.yaml
+      - sam build --template lambda.yml -b /tmp/build -s .
+      - sam package --template-file /tmp/build/template.yaml --output-template-file packaged.yaml --image-repository 490620769461.dkr.ecr.ap-south-1.amazonaws.com/sam-build --s3-bucket $BUCKET
+artifacts:
+  type: zip
+  files:
+    - packaged.yaml
+    - ops/**/*
