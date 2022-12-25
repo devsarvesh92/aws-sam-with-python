@@ -1,0 +1,14 @@
+[tool.pdm]
+
+[project]
+name = ""
+version = ""
+description = ""
+authors = [
+    {name = "devsarvesh92", email = "sarvesh.sawant@deserve.com"},
+]
+dependencies = [
+    "boto3>=1.26.37",
+]
+requires-python = ">=3.9"
+license = {text = "MIT"}
